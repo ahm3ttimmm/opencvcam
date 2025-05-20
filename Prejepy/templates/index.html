@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Random Resim Gösterici</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        img { max-width: 90vw; max-height: 80vh; border: 3px solid #333; border-radius: 10px; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Rastgele Arka Plan Kaldırılmış Resim</h1>
+    <img id="randomImage" src="" alt="Resim Yükleniyor..." />
+    <br />
+    <button onclick="getRandomImage()">Yeni Resim Göster</button>
+
+    <script>
+        async function getRandomImage() {
+            const response = await fetch("/random-image");
+            const data = await response.json();
+
+            if (data.status === "ok") {
+                document.getElementById("randomImage").src = data.image_url;
+            } else {
+                alert(data.message);
+                document.getElementById("randomImage").src = "";
+            }
+        }
+
+        // Sayfa açılır açılmaz resim yükle
+        window.onload = getRandomImage;
+    </script>
+</body>
+</html>
